@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Escolar | Antonio Kassawara Katutok</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+      background:
+        radial-gradient(ellipse at top, #123b65 0%, transparent 55%),
+        linear-gradient(135deg, #050914, #0b1529 55%, #03060d);
+      overflow-x: hidden;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 430px;
+      padding: 38px 30px;
+      border: 1px solid rgba(86, 180, 255, .35);
+      border-radius: 22px;
+      background: rgba(7, 15, 30, .88);
+      box-shadow: 0 0 45px rgba(0, 140, 255, .13);
+      animation: aparecer .8s ease;
+    }
+
+    .logo {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #48baff;
+      border-radius: 20px;
+      color: #67c8ff;
+      font-size: 30px;
+      font-weight: bold;
+      box-shadow: 0 0 25px rgba(49, 173, 255, .2);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 23px;
+      line-height: 1.35;
+      margin-bottom: 9px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #a7b7cc;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 29px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #dce8f7;
+      font-size: 13px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #263c58;
+      border-radius: 10px;
+      outline: none;
+      color: #fff;
+      background: #0a1425;
+      font-size: 14px;
+      transition: .25s;
+    }
+
+    input:focus {
+      border-color: #48baff;
+      box-shadow: 0 0 12px rgba(72, 186, 255, .13);
+    }
+
+    .privacy {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 19px 0;
+      color: #aabbd0;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .privacy input {
+      margin-top: 3px;
+      accent-color: #31aaff;
+      flex-shrink: 0;
+    }
+
+    .privacy a {
+      color: #69c7ff;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(100deg, #087fe5, #24baff);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .login-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 25px rgba(36, 186, 255, .25);
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      background: rgba(255, 77, 77, .1);
+      border: 1px solid rgba(255, 100, 100, .35);
+      color: #ffb6b6;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .contact {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #203149;
+      text-align: center;
+    }
+
+    .contact-title {
+      color: #aabbd0;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp {
+      display: inline-block;
+      color: #61e6a0;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .whatsapp:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      color: #63748b;
+      font-size: 11px;
+    }
+
+    /* INTRODUÇÃO EM TELA CHEIA */
+
+    #intro {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #intro video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .video-fallback {
+      display: none;
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 18px;
+      padding: 25px;
+      text-align: center;
+      background: rgba(0, 0, 0, .88);
+    }
+
+    .video-fallback p {
+      color: #d7eaff;
+      line-height: 1.6;
+    }
+
+    .video-fallback button {
+      padding: 13px 22px;
+      border: none;
+      border-radius: 9px;
+      background: #149eea;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 22px;
+      }
+
+      h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="login-container" id="loginContainer">
+    <div class="logo">AK</div>
+
+    <h1>Portal Escolar</h1>
+
+    <p class="subtitle">
+      Escola Antonio Kassawara Katutok<br>
+      Acesse para continuar ao site oficial.
+    </p>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Digite seu e-mail"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          placeholder="Digite sua senha"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <label class="privacy">
+        <input type="checkbox" id="privacidade">
+        <span>
+          Li e aceito o aviso de privacidade. Entendo que esta tela
+          é demonstrativa e que não devo inserir senhas pessoais.
+        </span>
+      </label>
+
+      <button type="submit" class="login-button">
+        ENTRAR NO PORTAL
+      </button>
+
+      <div class="message" id="mensagem" role="alert"></div>
+    </form>
+
+    <section class="contact">
+      <p class="contact-title">
+        Problemas ou dúvidas? Entre em contato comigo pelo WhatsApp:
+      </p>
+
+      <a
+        class="whatsapp"
+        href="https://wa.me/5518997408137"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        +55 18 99740-8137 ↗
+      </a>
+    </section>
+
+    <p class="footer">
+      Portal demonstrativo • Antonio Kassawara Katutok
+    </p>
+  </main>
+
+  <!-- VÍDEO DE ENTRADA -->
+
+  <section id="intro" aria-label="Animação de entrada">
+    <video
+      id="introVideo"
+      playsinline
+      preload="auto"
+      disablepictureinpicture
+    >
+      <source
+        src="https://raw.githubusercontent.com/GuilhermeTestes/antonio-kassawara-katutok2.05/main/intro_neon_melhorado_1080p.mp4"
+        type="video/mp4"
+      >
+      Seu navegador não conseguiu carregar o vídeo.
+    </video>
+
+    <div class="video-fallback" id="videoFallback">
+      <p>
+        Não foi possível reproduzir a animação.<br>
+        Você pode continuar para o site.
+      </p>
+      <button type="button" id="continuar">
+        CONTINUAR PARA O SITE
+      </button>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
+    const privacidade = document.getElementById("privacidade");
+    const mensagem = document.getElementById("mensagem");
+    const loginContainer = document.getElementById("loginContainer");
+    const intro = document.getElementById("intro");
+    const video = document.getElementById("introVideo");
+    const videoFallback = document.getElementById("videoFallback");
+    const continuar = document.getElementById("continuar");
+
+    const siteUrl =
+      "https://guilhermetestes.github.io/antonio-kassawara-katutok2.05/";
+
+    function mostrarMensagem(texto) {
+      mensagem.textContent = texto;
+      mensagem.style.display = "block";
+    }
+
+    function entrarNoSite() {
+      window.location.href = siteUrl;
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      mensagem.style.display = "none";
+
+      if (!email.value.trim() || !senha.value) {
+        mostrarMensagem("Preencha o e-mail e a senha para continuar.");
+        return;
+      }
+
+      if (!email.checkValidity()) {
+        mostrarMensagem("Digite um endereço de e-mail válido.");
+        email.focus();
+        return;
+      }
+
+      if (!privacidade.checked) {
+        mostrarMensagem("Marque o aviso de privacidade para continuar.");
+        return;
+      }
+
+      /*
+        Esta é uma tela demonstrativa.
+        Ela não autentica usuários nem envia ou salva credenciais.
+      */
+
+      loginContainer.style.display = "none";
+      intro.style.display = "flex";
+
+      video.currentTime = 0;
+
+      try {
+        await video.play();
+      } catch (error) {
+        videoFallback.style.display = "flex";
+      }
+    });
+
+    video.addEventListener("ended", entrarNoSite);
+
+    video.addEventListener("error", function() {
+      videoFallback.style.display = "flex";
+    });
+
+    continuar.addEventListener("click", entrarNoSite);
+  </script>
+
+</body>
+</html>
